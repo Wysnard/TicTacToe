@@ -59,5 +59,8 @@ function draw() {
     } else if (board.checkWinner() != null) {
         fill(50)
         text(`The Winner is ${board.checkWinner().symbol}`, 10, 30)
+    } else {
+        fill(50)
+        text("It is a tie!", 10, 30)
     }
 }
