@@ -17,8 +17,4 @@ class Random extends Player {
         let selected = available[floor(random(available.length))]
         return selected
     }
-
-    click() {
-        return [-1, -1]
-    }
 }

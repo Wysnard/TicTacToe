@@ -5,7 +5,7 @@ let board
 
 // Players' algorithms
 // All Algorithms are in the players folder
-let players = [new User('X'), new User('O')]
+let players = [new User('X'), new MiniMax('O')]
 
 let currentPlayer
 
@@ -33,10 +33,9 @@ function setup() {
 }
 
 function mousePressed() {
-    if (board.isPlaying()) {
+    if (board.checkWinner() == null) {
         let [x, y] = currentPlayer.click(board)
 
-        // console.log(x, y)
         if (x in _.range(3) && y in _.range(3))
             if (board.put(currentPlayer, x, y))
                 getCurrentPlayer().next()
@@ -48,7 +47,7 @@ function mousePressed() {
 function draw() {
     background(200)
 
-    if (board.isPlaying()) {
+    if (board.checkWinner() == null) {
         let [x, y] = currentPlayer.put(board)
 
         if (x in _.range(3) && y in _.range(3))
@@ -56,11 +55,11 @@ function draw() {
                 getCurrentPlayer().next()
 
         board.show()
-    } else if (board.checkWinner() != null) {
-        fill(50)
-        text(`The Winner is ${board.checkWinner().symbol}`, 10, 30)
-    } else {
+    } else if (board.checkWinner() == 'tie') {
         fill(50)
         text("It is a tie!", 10, 30)
+    } else if (board.checkWinner() != null) {
+        fill(50)
+        text(`The Winner is ${board.checkWinner()}`, 10, 30)
     }
 }

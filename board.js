@@ -26,7 +26,7 @@ class Board {
             if (this.board[0][y] != '') {
                 for (let x = 0; x < this.board.length; x++) {
                     const cell = this.board[x][y];
-                    winner = _.isEqual(cell, this.board[0][y])
+                    winner = cell === this.board[0][y]
                     if (!winner)
                         break
                 }
@@ -42,7 +42,7 @@ class Board {
             if (this.board[x][0] != '') {
                 for (let y = 0; y < this.board.length; y++) {
                     const cell = this.board[x][y];
-                    winner = _.isEqual(cell, this.board[x][0])
+                    winner = cell === this.board[x][0]
                     if (!winner)
                         break
                 }
@@ -57,7 +57,7 @@ class Board {
             winner = true
             for (let i = 0; i < this.board.length; i++) {
                 const cell = this.board[i][i];
-                winner = _.isEqual(cell, this.board[0][0])
+                winner = cell === this.board[0][0]
                 if (!winner) {
                     break
                 }
@@ -68,12 +68,12 @@ class Board {
 
         // Check bottom left corner to right top corner diagonal
         if (this.board[0][2] != '') {
-            winner = (_.isEqual(this.board[0][2], this.board[1][1]) && _.isEqual(this.board[0][2], this.board[2][0]))
+            winner = this.board[0][2] === this.board[1][1] && this.board[0][2] === this.board[2][0]
             if (winner)
                 return this.board[0][2]
         }
 
-        return null
+        return (this.board.flat(2).filter((cell) => cell == '').length != 0) ? null : 'tie'
     }
 
     isPlaying() {
@@ -87,8 +87,8 @@ class Board {
     put(player, x, y) {
         let available = this.isAvailable(x, y)
         if (available)
-            this.board[x][y] = player
-            // console.log(this.board)
+            this.board[x][y] = player.symbol
+        console.log(this.board)
         return available
     }
 
@@ -112,11 +112,11 @@ class Board {
                 const cell = this.board[i][j];
                 let x = w * i + w / 2
                 let y = h * j + h / 2
-                if (_.isEqual(cell, players[0])) {
+                if (cell === players[0].symbol) {
                     const xr = w / 4
                     line(x - xr, y - xr, x + xr, y + xr)
                     line(x - xr, y + xr, x + xr, y - xr)
-                } else if (_.isEqual(cell, players[1])) {
+                } else if (cell === players[1].symbol) {
                     ellipse(x, y, 50)
                     noFill()
                 }
